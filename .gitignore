@@ -1,0 +1,10 @@
+node_modules/
+dist/
+tmp/
+temp/
+*.log
+log/
+.env
+.tscache
+sessions/
+certs/

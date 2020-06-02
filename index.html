@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <title>Place Autocomplete</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  </head>
+
+  <body>
+    <div class="pac-card" id="pac-card">
+      <div id="pac-container">
+        <input id="pac-input" type="text"
+            placeholder="Enter a location">
+      </div>
+      <div>
+        <input id="submitData" type="button" name="addressSubmit" value="Submit"/>
+      </div>
+    </div>
+    <script>
+
+      let lat,lng;
+      function initMap(){
+        var input = document.getElementById('pac-input');
+        var autocomplete = new google.maps.places.Autocomplete(input);
+        autocomplete.addListener('place_changed', function() {
+          var place = autocomplete.getPlace();
+          console.log(place.geometry.location.lat());
+          console.log(place.geometry.location.lng());
+          lat = place.geometry.location.lat();
+          lng = place.geometry.location.lng();
+        });
+      }
+
+      $(document).ready(function() {
+        console.log("ready!");
+        $("#submitData").click((el)=>{
+            $.ajax({
+                type: 'GET',
+                url: 'http://localhost:3000/store/address?lat='+lat+"&lng="+lng,
+                headers: {
+                  'content-type' : 'application/json'
+                },
+                cache: false,
+                processData: false,
+                success: function(response) {
+                    console.log('response ',response);
+                }
+            });
+        });
+      });
+
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDJeyJGzExrSxPO7S3ngsMh5lX0u0obETU&libraries=places&callback=initMap"
+        async defer></script>
+  </body>
+</html>
