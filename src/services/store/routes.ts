@@ -16,8 +16,7 @@ export default [
     handler: async (req: Request, res: Response) => {
 		let addressData = addressReader(req.query);
 		res.status(200).send({
-			"message" : (addressData!=="" ? "Store Found." : "Store Not Found"),
-			"store" : addressData
+			"message" : (addressData!=="" ? "Store Found :- "+addressData : "Store Not Found")
 		});
     }
   }
